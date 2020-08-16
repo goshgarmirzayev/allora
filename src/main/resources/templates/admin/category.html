@@ -1,0 +1,125 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:with="http://www.thymeleaf.org/extras/with"
+      layout:decorate="~{adminBase}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel | Category</title>
+</head>
+<body layout:fragment="adminContent">
+<script>
+    $(function () {
+        $(".view-banner").on("click", function () {
+            console.log("I am clicked")
+            $('#imageModal').modal('toggle');
+            $("#img").attr("src", "/images" + $(this).attr("path"))
+            $('#imageModal').modal('show');
+            // $('#myModal').modal('hide');
+        })
+    })
+</script>
+<div class="container">
+    <div class="row">
+        <div class="col col-md-12">
+            <form action="/adminPanel/category/add" th:object="${category}" method="post"
+                  enctype="multipart/form-data">
+                <div class="row mb-1 mt-5">
+                    <div class="col col-md-6">
+                        <label>Category name:</label>
+                        <br>
+                        <input th:field="*{name}" type="text" name="name" class="form-control">
+                    </div>
+                    <div class="col col-md-6">
+                        <label>Category banner image:</label>
+                        <br>
+                        <input type="file" name="image" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-md-6">
+                        <button class="btn btn-success btn-block">
+                            Add
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <table class="table data-table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Options <i class="fas fa-tools"></i></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cat : ${categories}">
+                <td></td>
+                <td th:text="${cat.name}"></td>
+                <td><a href="#" th:path="${cat.bannerImageUrl}" class="view-banner">View image</a></td>
+                <td><button th:id="${cat.id}" class="delete-category" title="Delete"><i class="fa fa-trash"></i></button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card" style="">
+                    <img class="card-img-top" id="img" style="height: " src="#" alt="Card image cap">
+                    <div class="card-body">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!--                <button type="button" class="btn btn-primary">Save changes</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="updateCategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">UpdateModal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card" style="">
+                    <img class="card-img-top" id="img" style="" src="#" alt="Card image cap">
+                    <div class="card-body">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <!--                <button type="button" class="btn btn-primary">Save changes</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

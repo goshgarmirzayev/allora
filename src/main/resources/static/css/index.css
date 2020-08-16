@@ -1,0 +1,111 @@
+/*body {*/
+/*    background-color: #32363E !important;*/
+/*    color: white !important;*/
+/*}*/
+
+/*.btn-block {*/
+/*    background-color: darkslategray !important;*/
+/*    color: white !important;*/
+/*}*/
+
+/*.game-bar {*/
+/*    margin-bottom: 40px;*/
+/*}*/
+
+/*@media (min-width: 500px) {*/
+/*    .leagues {*/
+/*        height: 100vh;*/
+/*        position: fixed;*/
+/*        font-size: x-large;*/
+/*        background-color: #495057;*/
+/*        min-width: 300px;*/
+
+/*    }*/
+
+/*    .leagues table td {*/
+/*        margin-left: 20px;*/
+/*        margin-top: 20px;*/
+/*        margin-right: 20px;*/
+/*        margin-bottom: 20px;*/
+/*    }*/
+
+/*    .leagues table {*/
+/*        margin-top: 52px;*/
+/*    }*/
+
+/*    .leagues h3 {*/
+/*        margin-left: 20px;*/
+/*    }*/
+/*}*/
+
+/*@media (max-width: 500px) {*/
+/*    .leagues {*/
+/*        padding-right: 100px;*/
+/*        padding-left: 100px;*/
+/*        display: none;*/
+/*    }*/
+
+/*    .game-bar h4, p {*/
+/*        font-size: 14px;*/
+
+/*    }*/
+
+/*    .game-links {*/
+/*        margin-left: -150px !important;*/
+/*    }*/
+
+/*    .game-bar img {*/
+/*        max-width: 86px;*/
+/*    }*/
+/*}*/
+
+/*.games img {*/
+/*    border-radius: 10px;*/
+/*}*/
+ * {
+     font-family: 'Rubik', sans-serif;
+ }
+
+#first-section {
+    position: relative;
+
+    min-height: 550px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-attachment: fixed;
+    background-image: url("/img/clipart-basketball-sport-8.png");
+    text-align: center;
+    background-color: rgb(253, 207, 0);
+
+}
+
+.fs-60 {
+    font-size: 60px;
+}
+
+.fs-25 {
+    font-size: 25px;
+}
+
+.back-opacity {
+    width: 100%;
+    top: 0;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    opacity: 0.6;
+    background-color: rgb(35, 35, 35);
+}
+
+.loader-wrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgb(136, 111, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,260 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+          integrity="" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/onbir.css}">
+    <script th:src="@{/static/js/jqueryjquery.js}"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <a href="https://api.whatsapp.com/send?phone=51955081075&text=Hola%21%20Quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20Varela%202."
+       class="float" target="_blank">
+        <i class="fa fa-whatsapp my-float"></i>
+    </a>
+</head>
+<body>
+<script>
+    $(function () {
+        $('#email').change(function () {
+            var email = $('#email').val();
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var json = JSON.parse(JSON.stringify(xhttp.responseText));
+                    if (json === "-1") {
+                        $("#alreadyExist").show();
+                        $("#post").attr('disabled', 'disabled')
+                    } else if (email.trim() === "") {
+                        alert("Email input required")
+                    } else {
+                        $('#post').removeAttr('disabled')
+                        $("#alreadyExist").hide();
+                        $('#repeatPassword').change(function () {
+                            console.log("TYpeadd")
+                            var password = $("#password").val();
+                            var rePassword = $("#repeatPassword").val();
+                            if (rePassword != password) {
+                                $('#dontMatches').show();
+                                $("#post").attr('disabled', 'disabled');
+
+                            } else {
+                                $('#dontMatches').hide();
+                                $("#post").removeAttr('disabled');
+                            }
+
+                        });
+                    }
+                }
+            };
+            xhttp.open("GET", "/checkUser/" + email, true);
+            xhttp.send();
+        });
+        $(".btn-edit").on('click', function () {
+            var userId = $(this).attr('data')
+            $("#updateUserId").val(userId)
+            debugger
+            console.log(userId)
+            $.ajax({
+                url: "/rest/getUserData/" + userId,
+                success: function (response) {
+                    console.log(response.username)
+                    $("#updateEmail").val(response.username)
+                    $("#updatePassword").val("")
+
+                }
+            })
+        })
+        $(".btn-delete").on('click', function () {
+            var userId = $(this).attr('data')
+            $("#deleteUserId").val(userId)
+            debugger
+            console.log(userId)
+        })
+        $("#generate-password").on('click', function () {
+            var pass = generatePassword();
+
+            $("#password").val(pass)
+            $("#repeatPassword").val(pass)
+            $("#post").removeAttr('disabled')
+
+        })
+        $("#generate-update-password").on('click', function () {
+            var pass = generatePassword();
+            $("#updatePassword").val(pass)
+            $("#repeatUpdatePassword").val(pass)
+        })
+        $(".show-password").on('click', function () {
+            if ($("#password").attr('type') === 'password') {
+                $("#password").attr('type', 'text')
+                $("#repeatPassword").attr('type', 'text')
+            } else {
+                $("#password").attr('type', 'password')
+                $("#repeatPassword").attr('type', 'password')
+            }
+        })
+
+        $("#show-password").on('click', function () {
+            if ($("#updatePassword").attr('type') === 'password') {
+                $("#updatePassword").attr('type', 'text')
+                $("#repeatUpdatePassword").attr('type', 'text')
+            } else {
+                $("#updatePassword").attr('type', 'password')
+                $("#repeatUpdatePassword").attr('type', 'password')
+            }
+        })
+
+        function generatePassword() {
+            var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            var string_length = 8;
+            var randomstring = '';
+            for (var i = 0; i < string_length; i++) {
+                var rnum = Math.floor(Math.random() * chars.length);
+                randomstring += chars.substring(rnum, rnum + 1);
+            }
+            return randomstring;
+        }
+    });
+
+</script>
+<section id="nav-bar">
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <a class="navbar-brand" href="#top"><img th:src="@{/img/logo1.png}"></a>
+        <button class="navbar-toggler bg-light p-1" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav navbar-center">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/"><i class="fa fa-home"></i><span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/" target="_blank">ONBİR</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Create new user</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</section>
+<div class="container">
+    <div class="col col-md-4 col-sm-4 mx-auto">
+        <form action="/adminPanel/addUser" autocomplete="off" autocapitalize="off" class="mt-1">
+            <input type="text" placeholder="Email" name="email" class="form-control mb-1" id="email" autocomplete="off">
+            <label for="email" id="alreadyExist" style="display: none;color: red">Already Exist</label>
+            <input type="password" placeholder="Password" name="password" class="form-control mb-1" autocomplete="off"
+                   id="password">
+            <label style="color: red;display: none" for="repeatPassword" id="dontMatches">Password don't matches</label>
+            <input type="password" placeholder="Repeat Password" class="form-control mb-1" id="repeatPassword">
+            <a href="#" id="generate-password" class="">Generate password</a>
+            <a href="#" id="" class="show-password">Show password</a>
+            <input class="btn btn-primary" disabled value="Add" type="submit" id="post">
+        </form>
+    </div>
+    <div class="col col-md-8 col-sm-8 mx-auto">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Handle</th>
+            </tr>
+            </thead>
+            <tbody th:each="user:${users}">
+            <tr>
+                <th scope="row"></th>
+                <td th:text="${user.email}">Mark</td>
+                <td>
+                    <button type="button" class="btn btn-warning btn-edit" data-toggle="modal"
+                            data-target="#updateModal"
+                            th:data="${user.id}">
+                        Edit
+                    </button>
+                    <button class="btn btn-danger btn-delete" data-toggle="modal" data-target="#deleteModal"
+                            th:data="${user.id}">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer class="page-footer">
+    <div class="footer-copyright text-center py-3 ftr">© 2019 Bütün Hüquqlar Qorunur |
+        <a href="https://Onbir.az" target="_blank"> ONBİR.AZ</a>
+    </div>
+
+</footer>
+
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/adminPanel/updateUser" class="" autocomplete="off" id="updateForm">
+                <div class="modal-body">
+                    <input type="email" name="email" id="updateEmail" class="form-control mb-3" required>
+                    <input type="password" name="password" id="updatePassword" class="form-control mb-4" required>
+                    <input type="password" name="password" id="repeatUpdatePassword" class="form-control mb-4">
+                    <input type="hidden" value="0" name="id" id="updateUserId">
+                    <a href="#" id="show-password">Show Generated Password</a>
+                    <br>
+                    <a style="text-decoration: none" href="#" id="generate-update-password" class="">Generate
+                        Password</a>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary " id="submitUpdateForm">Update</button>
+
+
+                </div>
+            </form>
+        </div>
+
+
+    </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form action="/adminPanel/deleteUser" class="form-group" autocomplete="off">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p> Are you sure?</p>
+                    <input type="hidden" name="id" value="0" id="deleteUserId">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary " id="submitDeleteForm">Delete</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+></script>
+</body>
+</html>

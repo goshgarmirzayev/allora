@@ -1,0 +1,89 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:with="http://www.thymeleaf.org/extras/with"
+      layout:decorate="~{adminBase}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>Admin Panel</title>
+
+</head>
+
+<body layout:fragment="adminContent">
+<div class="container text-center">
+    <h3 style="margin-top: 100px;">Menyudan istəyinizə uyğun bölməni seçib, işinizə davam edə bilərsiniz!</h3>
+</div>
+
+</body>
+</html>
+<script>
+    $(function () {
+        $(".add").on("click", function () {
+
+
+            $.ajax({
+                url: "/rest/getAllCategories",
+                dataType: "json",
+                type: "GET",
+                success: function (response) {
+                    console.log("Successfully get: " + response)
+                    $.each(response, function (index, value) {
+                        var option = "<option value='" + value.id + "'>" + value.name + "</option>"
+                        $(".category-select").append(option)
+                    })
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR);
+                    // Your error handling logic here..
+                }
+            });
+        })
+        $(document).ready(function () {
+            $('.category-select').select2(
+                {width: '100%'}
+            );
+        });
+        $(".update").on('click', function () {
+            var matchId=$(this).attr("data")
+            $(".category-select-update").html("")
+            $.ajax({
+                url: "/rest/getAllCategories",
+                dataType: "json",
+                type: "GET",
+                success: function (response) {
+                    console.log("Successfully get: " + response)
+                    $.each(response, function (index, value) {
+                        var option = "<option value='" + value.id + "'>" + value.name + "</option>"
+                        $(".category-select-update").append(option)
+                    })
+                },
+                error: function (jqXHR, exception) {
+                    console.log(jqXHR);
+                    // Your error handling logic here..
+                }
+            });
+            $(".category-select-update").select2({
+                width: "100%",
+                multiple: true
+            })
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "/rest/getMatchData/" +matchId,
+                success: function (response) {
+                    var categories = response.categories;
+                    categories = categories.substring(1, categories.length - 1);
+                    // console.log($(".category-select-update").val(categories.trim()).trigger('change'))
+                    var arr=new Array();
+                    arr=categories.trim().split(",")
+
+                    $(".category-select-update").val(arr).trigger("change")
+                }
+            })
+
+        })
+    })
+
+</script>

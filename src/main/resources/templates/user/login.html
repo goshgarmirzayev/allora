@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Fredoka+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap" rel="stylesheet">
+
+    <script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row py-5">
+            <div class="col-lg-6 py-5 mx-auto">
+                <!-- Card -->
+                <div class="card bg-light">
+                    <div class="row justify-content-center">
+                        <div class="col-12">
+                            <br>
+                            <div class="d-flex flex-column align-items-center justify-content-center">
+                                <img width="30%" th:src="${'/img/project/53879006.jpg'}" alt="">
+                                <p class="m-0" style="font-size: 30px;">Log In</p>
+                            </div>
+                            <!-- Card Body-Content -->
+                            <article class="card-body mx-auto" style="max-width: 400px;">
+                                <form action="/login" method="POST">
+                                    <!-- Inputs -->
+                                    <div class="input-group my-3">
+
+                                        <input name="username" class="form-control" placeholder="Email" type="text">
+                                    </div>
+                                    <div class="input-group mb-4">
+
+                                        <input name="password" class="form-control" placeholder="Password" type="password">
+                                    </div>
+                                    <!-- Buttons -->
+                                    <div class="form-group w-100">
+                                        <div class="row">
+                                            <div class="col-12 mb-2">
+                                                <button type="submit" class="btn-block btn btn-primary">
+                                                    Log In
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Option for Register -->
+                                    <div class="w-100 register-option">
+                                        <p class="text-center">
+                                            Don't have an account?
+                                            <a href="/">Register</a>
+                                        </p>
+                                    </div>
+                                </form>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://kit.fontawesome.com/000447bf4e.js"></script>
+</body>
+
+</html>

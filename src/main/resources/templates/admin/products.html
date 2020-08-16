@@ -1,0 +1,94 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:with="http://www.thymeleaf.org/extras/with"
+      layout:decorate="~{adminBase}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>Admin Panel</title>
+
+</head>
+
+<body layout:fragment="adminContent">
+<div class="container">
+    <div class="row">
+        <div class="col col-md-12">
+            <form class="">
+                <div class="row">
+                    <div class="col col-md-6 col-lg-6">
+                        <label>Product name:</label>
+                        <br>
+                        <input class="form-control " type="text" name="name">
+                    </div>
+                    <div class="col col-md-6">
+                        <label>Product about:</label>
+                        <br>
+                        <input class="form-control col " type="text" name="about">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-md-6">
+                        <label>Price per squaremeter:</label>
+                        <input type="number" class="form-control" name="pricePerSMeter"/>
+
+                    </div>
+                    <div class="col col-md-6">
+                        <label>Choose product category</label>
+                        <br>
+                        <select class="form-control col" name="category">
+                            <option>Select</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-md-6">
+                        <label>Banner image:</label>
+                        <br>
+                        <input class="form-control col " type="file" name="banner_image">
+                    </div>
+                    <div class="col col-md-6">
+                        <label>Choose Product images:</label>
+                        <br>
+                        <input type="file" name="images" class="form-control" multiple="multiple">
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col col-md-12">
+                        <button type="submit" class="btn btn-success btn-block">Add</button>
+
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table  data-table">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Product name</th>
+                <th>Product About</th>
+                <th>Banner Image</th>
+                <th>Price Per squaremeter</th>
+                <th>Category</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>Ustul</td>
+                <td>Pecat Bir Sheydi</td>
+                <td><a href="#">View image</a></td>
+                <td>100 AZN</td>
+                <td>Ushaq Mebeli</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
+
