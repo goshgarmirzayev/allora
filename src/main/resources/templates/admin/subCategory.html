@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Panel | Category</title>
+    <title>Admin Panel | SubCategory</title>
 </head>
 <body layout:fragment="adminContent">
 <script>
@@ -14,21 +14,32 @@
 <div class="container">
     <div class="row">
         <div class="col col-md-12">
-            <form action="/adminPanel/category/add" th:object="${category}" method="post"
+            <form action="/adminPanel/subCategory/add" th:object="${subCategory}" method="post"
                   enctype="multipart/form-data">
                 <div class="row mb-1 mt-5">
-                    <div class="col col-md-6">
+                    <div class="col col-md-4">
                         <label>Category name:</label>
                         <br>
                         <input th:field="*{name}" type="text" name="name" class="form-control">
                     </div>
-                    <div class="col col-md-6">
-                        <label>Category banner image:</label>
+                    <div class="col col-md-4">
+                        <label>SubCategory banner image:</label>
                         <br>
                         <input type="file" name="image" class="form-control">
                     </div>
+                    <div class="col col-md-4">
+                        <label>Belongs to:</label>
+                        <br>
+                        <select name="category" class="form-control">
+                            <option value="">Choose category</option>
+                            <th:block th:each="cat : ${categories}">
+                                <option th:value="${cat.id}" th:text="${cat.name}"></option>
+                            </th:block>
+
+                        </select>
+                    </div>
                 </div>
-                <div class="row">
+                <div class="row text-center">
                     <div class="col col-md-6">
                         <button class="btn btn-success btn-block">
                             Add
@@ -46,20 +57,23 @@
             <tr>
                 <th>#</th>
                 <th>Name</th>
+                <th>Category Name</th>
                 <th>Image</th>
                 <th>Options <i class="fas fa-tools"></i></th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="cat : ${categories}">
+            <tr th:each="cat : ${subCategories}">
                 <td></td>
                 <td th:text="${cat.name}"></td>
+                <td th:text="${cat.categoryId.name}"></td>
                 <td><a href="#" th:path="${cat.bannerImageUrl}" class="view-banner">View image</a></td>
                 <td>
                     <button th:id="${cat.id}" class="delete-category" title="Delete"><i class="fa fa-trash"></i>
                     </button>
-                    <button th:catId="${cat.id}" class="update-category" th:imagePath="${cat.bannerImageUrl}"
-                            th:catName="${cat.name}" title="Update"><i class="fa fa-edit"></i>
+                    <button th:catId="${cat.id}" class="update-sub-category" th:imagePath="${cat.bannerImageUrl}"
+                            th:catName="${cat.name}" th:parentname="${cat.categoryId.name}" title="Update"><i
+                            class="fa fa-edit"></i>
                     </button>
                 </td>
             </tr>
@@ -92,10 +106,10 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="updateCategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="updateSubCategoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="/adminPanel/category/add" enctype="multipart/form-data" method="post">
+        <form action="/adminPanel/subCategory/add" enctype="multipart/form-data" method="post">
 
             <div class="modal-content">
                 <div class="modal-header">
@@ -109,6 +123,12 @@
                     <input type="text" name="name" class="form-control">
                     </br>
                     <input type="file" name="image">
+                    <select class="form-control" name="category" id="select">
+                        <option value="">Choose category</option>
+                        <th:block th:each="cat : ${categories}">
+                            <option th:value="${cat.id}" th:text="${cat.name}"></option>
+                        </th:block>
+                    </select>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

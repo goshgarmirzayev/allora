@@ -17,21 +17,24 @@ import javax.validation.Valid;
 @RequestMapping(value = "/adminPanel")
 
 public class AdminController {
-   @Autowired
-   UserDataInter userDataInter;
+    @Autowired
+    UserDataInter userDataInter;
     @Autowired
     UserServiceInter userServiceInter;
     @Autowired
     ImageService imageService;
     @Autowired
     CategoryServiceInter categoryServiceInter;
+    @Autowired
+    SubCategoryServiceInter subCategoryServiceInter;
 
     //Index Page
     @GetMapping
-    public  ModelAndView index(ModelAndView modelAndView){
+    public ModelAndView index(ModelAndView modelAndView) {
         modelAndView.setViewName("admin/admin");
         return modelAndView;
     }
+
     //Products Begin
     @RequestMapping(value = "/products")
     public ModelAndView product(ModelAndView modelAndView) {
@@ -42,7 +45,7 @@ public class AdminController {
     //category mappping
     @RequestMapping(value = "/categories")
     public ModelAndView category(ModelAndView modelAndView) {
-        modelAndView.addObject("category",new Category());
+        modelAndView.addObject("category", new Category());
         modelAndView.addObject("categories", categoryServiceInter.findAll());
         modelAndView.setViewName("/admin/category");
         return modelAndView;
@@ -50,18 +53,50 @@ public class AdminController {
 
     @PostMapping(value = "/category/add")
     public ModelAndView addCategory(ModelAndView modelAndView, @ModelAttribute("category") Category category, @RequestParam("image") MultipartFile file[]) {
-        category.setBannerImageUrl(imageService.createImage(file));
+        if (!file[0].isEmpty()) {
+            category.setBannerImageUrl(imageService.createImage(file));
+        }
         categoryServiceInter.save(category);
 
         modelAndView.addObject("categories", categoryServiceInter.findAll());
         modelAndView.setViewName("redirect:/adminPanel/categories");
         return modelAndView;
     }
-    @RequestMapping(value= "/deleteCategory/{id}")
-    public ModelAndView deleteCategory(ModelAndView modelAndView,@PathVariable("id")Integer id){
+
+    @RequestMapping(value = "/deleteCategory/{id}")
+    public ModelAndView deleteCategory(ModelAndView modelAndView, @PathVariable("id") Integer id) {
         categoryServiceInter.deleteById(id);
-       modelAndView.setViewName("redirect:/adminPanel/categories");
-        return  modelAndView;
+        modelAndView.setViewName("redirect:/adminPanel/categories");
+        return modelAndView;
+    }
+
+    //subcategory mappping
+    @RequestMapping(value = "/subCategories")
+    public ModelAndView subCategory(ModelAndView modelAndView) {
+        modelAndView.addObject("subCategory", new SubCategory());
+        modelAndView.addObject("categories", categoryServiceInter.findAll());
+        modelAndView.addObject("subCategories", subCategoryServiceInter.findAll());
+        modelAndView.setViewName("/admin/subCategory");
+        return modelAndView;
+    }
+
+    @PostMapping(value = "/subCategory/add")
+    public ModelAndView addSubCategory(ModelAndView modelAndView, @ModelAttribute("subCategory") SubCategory category, @RequestParam("image") MultipartFile file[], @RequestParam("category") Integer catId) {
+        if (!file[0].isEmpty()) {
+            System.out.println("File Is not empty");
+            category.setBannerImageUrl(imageService.createImage(file));
+        }
+        category.setCategoryId(categoryServiceInter.findById(catId));
+        subCategoryServiceInter.save(category);
+        modelAndView.setViewName("redirect:/adminPanel/subCategories");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/deleteSubCategory/{id}")
+    public ModelAndView deleteSubCategory(ModelAndView modelAndView, @PathVariable("id") Integer id) {
+        subCategoryServiceInter.deleteById(id);
+        modelAndView.setViewName("redirect:/adminPanel/subCategories");
+        return modelAndView;
     }
     //Users started here
 
@@ -97,5 +132,5 @@ public class AdminController {
     }
     //Users ended here
 
-      //Post ended here
+    //Post ended here
 }
