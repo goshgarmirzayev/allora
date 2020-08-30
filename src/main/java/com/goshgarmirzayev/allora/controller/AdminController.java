@@ -82,10 +82,12 @@ public class AdminController {
 
     @PostMapping(value = "/subCategory/add")
     public ModelAndView addSubCategory(ModelAndView modelAndView, @ModelAttribute("subCategory") SubCategory category, @RequestParam("image") MultipartFile file[], @RequestParam("category") Integer catId) {
+        System.out.println(category);
         if (!file[0].isEmpty()) {
             System.out.println("File Is not empty");
             category.setBannerImageUrl(imageService.createImage(file));
         }
+
         category.setCategoryId(categoryServiceInter.findById(catId));
         subCategoryServiceInter.save(category);
         modelAndView.setViewName("redirect:/adminPanel/subCategories");

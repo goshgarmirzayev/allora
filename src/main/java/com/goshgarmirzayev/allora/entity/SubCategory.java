@@ -110,7 +110,11 @@ public class SubCategory implements Serializable {
 
     @Override
     public String toString() {
-        return "com.goshgarmirzayev.lastrebound.entity.SubCategory[ id=" + id + " ]";
+        return "SubCategory{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", bannerImageUrl='" + bannerImageUrl + '\'' +
+                ", categoryId=" + categoryId +
+                '}';
     }
-    
 }

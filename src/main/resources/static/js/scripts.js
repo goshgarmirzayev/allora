@@ -4,6 +4,7 @@ $(function () {
     })
     $('.data-table').dynatable();
     $(".view-banner").on("click", function () {
+        $("#img").attr("src", "")
         console.log("I am clicked")
         $('#imageModal').modal('toggle');
         $("#img").attr("src", $(this).attr("path"))
@@ -18,6 +19,7 @@ $(function () {
         console.log(id,name,imagePath)
         $("#updateCategoryModal").find("input[name='id']").val(id);
         $("#updateCategoryModal").find("input[name='name']").val(name);
+        $("#updateCategoryModal").find("input[name='bannerImageUrl']").val(imagePath);
         // $("#updateCategoryModal").find("input[name='image']").val("/pojects/allora/"+imagePath);
         $("#updateCategoryModal").modal("toggle")
         $("#updateCategoryModal").modal("show")
@@ -28,12 +30,13 @@ $(function () {
         var id = elem.attr("catid")
         var name =elem.attr("catname")
         var imagePath = elem.attr("imagepath")
-        var parentName = elem.attr("parentname")
+        console.log(imagePath)
+        var parentName = elem.attr("parentcatid")
         console.log(id,name,imagePath,parentName)
      $("#select").val(parentName).change()
         $("#updateSubCategoryModal").find("input[name='id']").val(id);
         $("#updateSubCategoryModal").find("input[name='name']").val(name);
-        // $("#updateSubCategoryModal").find("select[name='category']").val(parentName);
+        $("#updateSubCategoryModal").find("select[name='category']").val(parentName).change();
         // $("#updateCategoryModal").find("input[name='image']").val("/pojects/allora/"+imagePath);
         $("#updateSubCategoryModal").modal("toggle")
         $("#updateSubCategoryModal").modal("show")

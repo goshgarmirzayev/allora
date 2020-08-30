@@ -72,7 +72,7 @@
                     <button th:id="${cat.id}" class="delete-category" title="Delete"><i class="fa fa-trash"></i>
                     </button>
                     <button th:catId="${cat.id}" class="update-sub-category" th:imagePath="${cat.bannerImageUrl}"
-                            th:catName="${cat.name}" th:parentname="${cat.categoryId.name}" title="Update"><i
+                            th:catName="${cat.name}" th:parentcatid="${cat.categoryId.id}" title="Update"><i
                             class="fa fa-edit"></i>
                     </button>
                 </td>
@@ -120,9 +120,11 @@
                 </div>
                 <div class="modal-body">
                     <input type="hidden" name="id">
+                    <input type="hidden" name="bannerImageUrl" th:field="*{name}">
                     <input type="text" name="name" class="form-control">
                     </br>
                     <input type="file" name="image">
+                    </br>
                     <select class="form-control" name="category" id="select">
                         <option value="">Choose category</option>
                         <th:block th:each="cat : ${categories}">
